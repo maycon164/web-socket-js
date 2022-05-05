@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Web Socket</title>
+</head>
+<body>
+    <div id="main-socket">
+        <h1 id="response"></h1>
+    </div>
+
+</body>
+
+<script>
+    const responseEl = document.getElementById("response");
+    let webSocketConnection;
+    window.onload = function(){
+        webSocketConnection = new WebSocket("ws://localhost:3000/hello");
+        webSocketConnection.onopen = function (){
+            webSocketConnection.send("Teste de Conexão!!!")
+            console.log("Connection WebSocket is active!!!");
+
+            webSocketConnection.onmessage = function(event){
+                responseEl.innerHTML = event.data;
+            }
+
+            webSocketConnection.onerror = function(event){
+                responseEl.innerHTML = "Conexão encerrou inesperadamente!!!";
+            }
+
+            webSocketConnection.onclose = function(event){
+                responseEl.innerHTML = "Conexão fechou!!!!!";
+            }
+        }
+    }
+
+</script>
+</html>
